@@ -1,0 +1,41 @@
+{
+  "name": "maptyper",
+  "version": "1.0.0",
+  "description": "",
+  "source": "src/index.html",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel",
+    "build": "parcel build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuletide/maptyper.git"
+  },
+  "keywords": [
+    "maps",
+    "maplibre",
+    "svg",
+    "mapbox"
+  ],
+  "author": "@yuletide",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yuletide/maptyper/issues"
+  },
+  "homepage": "https://github.com/yuletide/maptyper#readme",
+  "devDependencies": {
+    "buffer": "^5.7.1",
+    "parcel": "^2.8.2",
+    "parcel-reporter-static-files-copy": "^1.5.0",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "text-to-svg": "^3.1.5"
+  },
+  "prettier": {
+    "singleQuote": true
+  }
+}
