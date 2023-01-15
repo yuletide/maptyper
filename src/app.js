@@ -1,13 +1,20 @@
 const TextToSVG = require('text-to-svg');
 const svgtogeojson = require('svg-to-geojson').svgtogeojson;
 const { geoFromSVGXML } = require('svg2geojson');
+const mapboxgl = require('mapbox-gl');
+const buffer = require('@turf/buffer').default;
+mapboxgl.accessToken = process.env['MAPBOX_ACCESS_TOKEN'];
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 const font = '/fonts/ipag.ttf';
 const text = 'Hello World';
 const parser = new DOMParser();
+let map;
 
 const input = document.getElementById('textInput');
 input.addEventListener('input', onTextChange);
+initMap();
+
 const render = (text) => {
   TextToSVG.load(font, (err, textToSVG) => {
     // const svg = textToSVG.getSVG('hello');
@@ -29,19 +36,22 @@ const render = (text) => {
 
     var json = svgtogeojson.svgToGeoJson(
       [
-        [51.60351870425863, 0.207366943359375],
-        [51.342623007528246, -0.46829223632812494],
+        [60.60351870425863, 25.907366943359375],
+        [42.042623007528246, -10.96829223632812494],
       ],
       svgParsed.firstChild,
       9
     );
     console.log(JSON.stringify(json));
+    setMapData(buffer(json, 0));
   });
 };
 // …processing SVG code as a string
 
 //const textToSVG = TextToSVG.loadSync();
-
+function setMapData(json) {
+  map.getSource('text').setData(json);
+}
 function parseSVGOldWay(svg) {
   const metadata = `<MetaInfo xmlns="http://www.prognoz.ru"><Geo>
 <GeoItem X="-595.30" Y="-142.88" Latitude="37.375593" Longitude="-121.977795"/>
@@ -77,3 +87,39 @@ function onTextChange(e) {
   console.log(e);
   render(e.target.value);
 }
+function initMap() {
+  map = new mapboxgl.Map({
+    container: 'map', // container ID
+    style: 'mapbox://styles/yuletide/clcwq3kd9000i14r2iamhpahi', // style URL
+    center: [-0.46829223632812494, 51.342623007528246], // starting position [lng, lat]
+    zoom: 3, // starting zoom
+  });
+  map.on('load', () => {
+    map.addSource('text', {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: [],
+      },
+    });
+    map.addLayer(
+      {
+        id: 'textLayer',
+        type: 'fill-extrusion',
+        // Use "iso" as the data source for this layer
+        source: 'text',
+        layout: {},
+        paint: {
+          // The fill color for the layer is set to a light purple
+          // 'fill-color': 'white',
+          'fill-extrusion-color': '#5a3fc0',
+          'fill-extrusion-height': 1000000,
+          // 'fill-opacity': 0.3,
+        },
+      }
+      // 'poi-label'
+    );
+    console.log('map loaded');
+  });
+}
+function initLayers() {}

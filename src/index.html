@@ -4,12 +4,37 @@
     <meta charset="utf-8" />
     <title>My First Parcel App</title>
     <script type="module" src="app.js"></script>
+    <!-- <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css"
+      rel="stylesheet"
+    /> -->
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+      #previewPane {
+        position: absolute;
+        z-index: 2;
+        width: 200px;
+        height: 200px;
+        background: white;
+      }
+    </style>
   </head>
   <body>
-    <h1>Hello, World!</h1>
-    <div id="preview"></div>
-    <input name="text" id="textInput" />
-
+    <div id="previewPane">
+      <!-- <h1>Hello, World!</h1> -->
+      <div id="preview"></div>
+      <input name="text" id="textInput" />
+    </div>
     <div id="map"></div>
   </body>
 </html>
