@@ -1,12 +1,12 @@
 const TextToSVG = require('text-to-svg');
 const svgtogeojson = require('svg-to-geojson').svgtogeojson;
-const { geoFromSVGXML } = require('svg2geojson');
+// const { geoFromSVGXML } = require('svg2geojson');
 const mapboxgl = require('mapbox-gl');
 const buffer = require('@turf/buffer').default;
 mapboxgl.accessToken = process.env['MAPBOX_ACCESS_TOKEN'];
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-const font = '/fonts/ipag.ttf';
+const font = '/fonts/blackswan.ttf';
 const text = 'Hello World';
 const parser = new DOMParser();
 let map;
