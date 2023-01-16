@@ -6,7 +6,6 @@ mapboxgl.accessToken =
   'pk.eyJ1IjoieXVsZXRpZGUiLCJhIjoiY2xjd3E4ZTliMTZ5cTNwcXoyMHo1Y3k0ZSJ9.-E6k5FuStkpZuZFaCbTAwQ'; //process.env['MAPBOX_ACCESS_TOKEN'];
 import 'mapbox-gl/dist/mapbox-gl.css';
 import MapTyper from './maptyper';
-import MapTyper from './maptyper';
 
 const font = '/fonts/blackswan.ttf';
 const text = 'Hello World';
@@ -44,7 +43,9 @@ const render = (text) => {
       9
     );
     // console.log(JSON.stringify(json));
-    setMapData(buffer(json, 0));
+
+    // we must buffer to fix broken geojson
+    return buffer(json, 0);
   });
 };
 // …processing SVG code as a string
@@ -64,11 +65,14 @@ function onTextChange(e) {
   render(e.target.value);
 }
 function initMap() {
+  // SF: http://localhost:1234/#7.59/37.967/-122.163/59.2/69
+  // Boston: http://localhost:1234/#7.17/42.246/-71.165/-70.9/77
   map = new mapboxgl.Map({
     container: 'map', // container ID
     style: 'mapbox://styles/yuletide/clcwq3kd9000i14r2iamhpahi', // style URL
     center: [-0.46829223632812494, 51.342623007528246], // starting position [lng, lat]
     zoom: 3, // starting zoom
+    hash: true,
   });
   map.on('load', () => {
     map.addSource('text', {
@@ -96,6 +100,8 @@ function initMap() {
       // 'poi-label'
     );
     console.log('map loaded');
-    render('alex yule');
+    render('hello world!');
+    setMapData(typer.textToFeatures('hello world'));
+    // setMapData(buffer(json, 0));
   });
 }

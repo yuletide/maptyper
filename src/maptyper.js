@@ -1,5 +1,6 @@
 import TextToSVG from 'text-to-svg';
 import svgtogeojson from 'svg-to-geojson';
+import buffer from '@turf/buffer';
 
 /**
  * A class to convert text to geojson
@@ -29,7 +30,7 @@ class MapTyper {
       throw new Error('Font required to create MapTyper');
     }
     this.loaded = false;
-    this.callback = callback ? callback : null;
+    this.callback = callback || null;
     if (fontSize) {
       this._SVGOptions.fontSize = fontSize;
     }
@@ -43,7 +44,10 @@ class MapTyper {
       this.init = await this.initFont(font);
     })();
   }
-
+  /**
+   *
+   * @param {String} font
+   */
   initFont = async (font) => {
     // should we check if this has been called already and just return the promise here?
     const fontPromise = new Promise((resolve, reject) => {
@@ -62,30 +66,58 @@ class MapTyper {
   };
 
   _textToSVG = (text) => {
-    console.log(this);
     this.svg = this.textToSVG.getSVG(text, this._SVGOptions);
-    this._svgParsed = this._parser.parseFromString(this.svg, 'text/xml');
+    // The SVG to JSON library requires an element, not string, so parse to XML
+    this._svgParsed = this._parser.parseFromString(
+      this.svg,
+      'text/xml'
+    ).firstChild;
     return this.svg;
   };
 
-  textToFeatures = (text, bounds) => {
+  /**
+   * A placeholder for a function that takes in text, font size and origin point
+   * And calculates a bounds of the correct size. Must take into account latitude.
+   * TODO: Rewrite this in typescript with proper types for these
+   * @param {String} text
+   * @param {Number} size
+   * @param {import('mapbox-gl').PointLike} origin
+   * @returns {Array<Number>}
+   */
+  _calculateBounds = (text, size, origin) => {
+    return [
+      [60.60351870425863, 25.907366943359375],
+      [42.042623007528246, -10.96829223632812494],
+    ];
+  };
+
+  /**
+   * Convert text to GeoJSON.
+   * @param {String} text
+   * @param {import('mapbox-gl').PointLike} origin point to draw text from -- bottom left or center?
+   * we need some way to calculate the bounds dynamically and allow text positioning
+   * @returns {GeoJSON}
+   */
+  textToFeatures = (text, origin) => {
     if (!this.loaded) {
       console.error('Unable to calltextToFeatures before font loaded');
-      // this seems crazy... making apis is hard
+      // this seems crazy... TODO
       return this.init.then(this.textToFeatures(text));
     }
 
     this._textToSVG(text);
-    // awkward
+    const bounds = this._calculateBounds(
+      text,
+      this._SVGOptions.fontSize,
+      origin
+    );
+    // they really nested these objects huh
     const json = svgtogeojson.svgtogeojson.svgToGeoJson(
-      [
-        [60.60351870425863, 25.907366943359375],
-        [42.042623007528246, -10.96829223632812494],
-      ],
-      this._svgParsed.firstChild,
+      bounds,
+      this._svgParsed,
       9
     );
-    return json;
+    return buffer(json, 0);
   };
 }
 
