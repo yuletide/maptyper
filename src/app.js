@@ -64,7 +64,10 @@ function setMapData(json) {
 function onTextChange(e) {
   // console.log(e);
   // render(e.target.value);
-  setMapData(typer.textToFeatures(e.target.value));
+  // setMapData(typer.textToFeatures(e.target.value));
+  const json = typer.textToFeatures(e.target.value);
+  console.log(JSON.stringify(json));
+  setMapData(json);
 }
 function initMap() {
   // SF: http://localhost:1234/#7.59/37.967/-122.163/59.2/69
@@ -103,7 +106,8 @@ function initMap() {
     );
     console.log('map loaded');
     render('hello world!');
-    setMapData(typer.textToFeatures('hello world'));
+    const json = typer.textToFeatures('hello world');
+    setMapData(json);
     // setMapData(buffer(json, 0));
   });
 }
