@@ -42,7 +42,7 @@ const render = (text) => {
       svgParsed.firstChild,
       9
     );
-    console.log(JSON.stringify(json));
+    // console.log(JSON.stringify(json));
     setMapData(buffer(json, 0));
   });
 };
@@ -52,39 +52,39 @@ const render = (text) => {
 function setMapData(json) {
   map.getSource('text').setData(json);
 }
-function parseSVGOldWay(svg) {
-  const metadata = `<MetaInfo xmlns="http://www.prognoz.ru"><Geo>
-<GeoItem X="-595.30" Y="-142.88" Latitude="37.375593" Longitude="-121.977795"/>
-<GeoItem X="1388.66" Y=" 622.34" Latitude="37.369930" Longitude="-121.959404"/>
-</Geo></MetaInfo>`;
+// function parseSVGOldWay(svg) {
+//   const metadata = `<MetaInfo xmlns="http://www.prognoz.ru"><Geo>
+// <GeoItem X="-595.30" Y="-142.88" Latitude="37.375593" Longitude="-121.977795"/>
+// <GeoItem X="1388.66" Y=" 622.34" Latitude="37.369930" Longitude="-121.959404"/>
+// </Geo></MetaInfo>`;
 
-  const meta = document.createAttributeNS('http://www.prognoz.ru', 'MetaInfo');
+//   const meta = document.createAttributeNS('http://www.prognoz.ru', 'MetaInfo');
 
-  const metadataParsed = parser.parseFromString(metadata, 'text/xml');
-  console.log(metadataParsed);
-  svgParsed = parser.parseFromString(svg, 'text/xml');
-  console.log(svg);
-  console.log(svgParsed);
-  // previewContainer.innerHTML = svg;
-  previewContainer.append(svg.firstChild);
-  // textToElement(svg);
-  svgParsed.firstChild.append(metadataParsed.firstChild);
-  console.log(svgParsed);
+//   const metadataParsed = parser.parseFromString(metadata, 'text/xml');
+//   console.log(metadataParsed);
+//   svgParsed = parser.parseFromString(svg, 'text/xml');
+//   console.log(svg);
+//   console.log(svgParsed);
+//   // previewContainer.innerHTML = svg;
+//   previewContainer.append(svg.firstChild);
+//   // textToElement(svg);
+//   svgParsed.firstChild.append(metadataParsed.firstChild);
+//   console.log(svgParsed);
 
-  geoFromSVGXML(svgParsed.firstChild.outerHTML, (layer) => {
-    let json = JSON.stringify(layer.geo); // Turn JS object into JSON string
-    console.log(json);
-  });
-}
+//   geoFromSVGXML(svgParsed.firstChild.outerHTML, (layer) => {
+//     let json = JSON.stringify(layer.geo); // Turn JS object into JSON string
+//     console.log(json);
+//   });
+// }
 
-function textToElement(html) {
-  template = document.createElement('template');
-  template.innerHTML = html;
-  console.log(template.content.firstChild);
-}
+// function textToElement(html) {
+//   template = document.createElement('template');
+//   template.innerHTML = html;
+//   console.log(template.content.firstChild);
+// }
 
 function onTextChange(e) {
-  console.log(e);
+  // console.log(e);
   render(e.target.value);
 }
 function initMap() {
@@ -112,14 +112,14 @@ function initMap() {
         paint: {
           // The fill color for the layer is set to a light purple
           // 'fill-color': 'white',
+          // 'fill-opacity': 0.3,
           'fill-extrusion-color': '#5a3fc0',
           'fill-extrusion-height': 1000000,
-          // 'fill-opacity': 0.3,
         },
       }
       // 'poi-label'
     );
     console.log('map loaded');
+    render('alex yule');
   });
 }
-function initLayers() {}
