@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel",
-    "build": "parcel build --no-scope-hoisting"
+    "build": "parcel build --no-scope-hoist"
   },
   "repository": {
     "type": "git",
