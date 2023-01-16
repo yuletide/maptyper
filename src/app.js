@@ -16,6 +16,7 @@ const input = document.getElementById('textInput');
 input.addEventListener('input', onTextChange);
 initMap();
 
+/** replaced with library loaded */
 const render = (text) => {
   TextToSVG.load(font, (err, textToSVG) => {
     previewContainer = document.getElementById('preview');
@@ -62,7 +63,8 @@ function setMapData(json) {
 
 function onTextChange(e) {
   // console.log(e);
-  render(e.target.value);
+  // render(e.target.value);
+  setMapData(typer.textToFeatures(e.target.value));
 }
 function initMap() {
   // SF: http://localhost:1234/#7.59/37.967/-122.163/59.2/69
