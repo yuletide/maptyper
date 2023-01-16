@@ -3,7 +3,8 @@ const svgtogeojson = require('svg-to-geojson').svgtogeojson;
 // const { geoFromSVGXML } = require('svg2geojson');
 const mapboxgl = require('mapbox-gl');
 const buffer = require('@turf/buffer').default;
-mapboxgl.accessToken = process.env['MAPBOX_ACCESS_TOKEN'];
+mapboxgl.accessToken =
+  'pk.eyJ1IjoieXVsZXRpZGUiLCJhIjoiY2xjd3E4ZTliMTZ5cTNwcXoyMHo1Y3k0ZSJ9.-E6k5FuStkpZuZFaCbTAwQ'; //process.env['MAPBOX_ACCESS_TOKEN'];
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 const font = '/fonts/blackswan.ttf';
