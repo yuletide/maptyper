@@ -5,7 +5,7 @@ import MapTyper from './maptyper';
 mapboxgl.accessToken =
   'pk.eyJ1IjoieXVsZXRpZGUiLCJhIjoiY2xjd3E4ZTliMTZ5cTNwcXoyMHo1Y3k0ZSJ9.-E6k5FuStkpZuZFaCbTAwQ'; //process.env['MAPBOX_ACCESS_TOKEN'];
 
-const font = '/fonts/metal lord.ttf';
+const font = '/fonts/Lora-BoldItalic.ttf';
 const defaultText = 'Hello World';
 let map;
 
