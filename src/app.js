@@ -7,12 +7,13 @@ mapboxgl.accessToken =
 
 const font = '/fonts/Lora-BoldItalic.ttf';
 const defaultText = 'Hello World';
-let map;
+let map, currentText;
 
 const previewContainer = document.getElementById('preview');
 const input = document.getElementById('textInput');
+const fontInput = document.getElementById('fontInput');
 
-const typer = new MapTyper(font, 72, (loaded) => {
+let typer = new MapTyper(font, 72, (loaded) => {
   console.log('MapTyper Loaded');
   // possible race condition here, we should return a promise from typer and use that in on map load
 });
@@ -22,6 +23,7 @@ const setMapData = (json) => {
 };
 
 const renderText = (text) => {
+  currentText = text;
   const json = typer.textToFeatures(text);
   console.log(JSON.stringify(json));
   setMapData(json);
@@ -30,6 +32,15 @@ const renderText = (text) => {
 
 const onTextChange = (e) => {
   e.target.value && renderText(e.target.value);
+};
+
+const onFontChange = (e) => {
+  if (!e.target.value) return;
+  console.log(e.target.value);
+  typer = new MapTyper('/fonts/' + e.target.value, 72, (loaded) => {
+    console.log('Font changed ', e.target.value);
+    renderText(currentText);
+  });
 };
 
 const initMap = () => {
@@ -71,4 +82,5 @@ const initMap = () => {
 };
 
 input.addEventListener('input', onTextChange);
+fontInput.addEventListener('change', onFontChange);
 initMap();
