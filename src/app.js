@@ -29,7 +29,7 @@ const renderText = (text) => {
 };
 
 const onTextChange = (e) => {
-  renderText(e.target.value);
+  e.target.value && renderText(e.target.value);
 };
 
 const initMap = () => {
